@@ -50,7 +50,7 @@ public extension PTNet {
 
 
     public func count (mark: MarkingGraph) -> Int{
-      //parcour en profondeur
+      //parcours en profondeur
 
       var seen = [MarkingGraph]()
       var toSee = [MarkingGraph]()
@@ -82,8 +82,8 @@ public extension PTNet {
       while let curNode = toSee.popLast() {
         seen.append(curNode)
         var nbSmoke = 0;
-        for (key, value) in curNode.marking {
-            if (key.name == "s1" || key.name == "s2" || key.name == "s3"){
+        for (key, value) in curNode.marking {     //pour toute les places qui ont le nom "key" et la valeur "value" dans la liste currNode
+            if (key.name == "s1" || key.name == "s2" || key.name == "s3"){    //si le nom est s1 ou s2 ou s3 itérer
                nbSmoke += Int(value)
             }
         }
@@ -96,7 +96,7 @@ public extension PTNet {
             }
           }
       }
-      return false
+      return false  //retourne faux si à la fin du parcours il n'y a pas eu deux fumeurs en meme temps
     }
 
 
@@ -111,7 +111,7 @@ public extension PTNet {
         seen.append(currNode)
         for (key, value) in currNode.marking {
             if (key.name == "p" || key.name == "t" || key.name == "m"){
-               if(value > 1){
+               if(value > 1){         //on regarde si a un moment il y a plus de 2 jetons dans une de ces places
                  return true
                }
             }
