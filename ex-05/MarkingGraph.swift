@@ -14,9 +14,15 @@ public class MarkingGraph {
 
 // Ex. 1: Mutual exclusion
 do {
+<<<<<<< HEAD
     let m0 = MarkingGraph(marking: ["s0": 1, "s1": 0, "s2": 1, "s3": 0, "s4": 1)
     let m1 = MarkingGraph(marking: ["s0": 0, "s1": 1, "s3": 0, "s3": 0, "s4": 1)
     let m2 = MarkingGraph(marking: ["s0": 1, "s1": 0, "s3": 0, "s3": 1, "s4": 0)
+=======
+    let m0 = MarkingGraph(marking: ["s0": 1, "s1": 0, "s2": 1, "s3": 0, "s4": 1])
+    let m1 = MarkingGraph(marking: ["s0": 0, "s1": 1, "s2": 0, "s3": 0, "s4": 1])
+    let m2 = MarkingGraph(marking: ["s0": 1, "s1": 0, "s2": 0, "s3": 1, "s4": 0])
+>>>>>>> ee6546874a27e95ab135b3a6cdedabe6c7b6641d
 
     m0.successors = ["t1": m1, "t3": m2]
     m1.successors = ["t0": m0]
