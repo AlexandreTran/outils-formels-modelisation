@@ -15,7 +15,7 @@ import CoverabilityLib
 // Observe how the two existing tests are implemented to write your own.
 
 
-//premier modèle
+//premier modèle BoundedModel
 do{
   let model = createBoundedModel()
   guard let r = model.places.first(where: { $0.name == "r" }),
@@ -28,7 +28,9 @@ do{
         let w1  = model.places.first(where: { $0.name == "w1"  }),
         let w2  = model.places.first(where: { $0.name == "w2"  }),
         let w3  = model.places.first(where: { $0.name == "w3"  })
-
+      else{
+        fatalError("Erreur")
+      }
 
   let initialMarking: CoverabilityMarking =
       [r: 1, p: 1, t: 0, m: 0, w1: 1, s1: 0, w2: 1, s2: 0, w3: 1, s3: 0]  //marquage initial
@@ -36,10 +38,10 @@ do{
       if model.coverabilityGraph(from: initialMarking) != nil{
         print("Graphe crée")
       }
+  }
 
 
-
-//deuxième modèle
+//deuxième modèle unboundedModel
 do{
   let model = createUnboundedModel()
   guard let s0 = model.places.first(where: { $0.name == "s0" }),
@@ -48,7 +50,9 @@ do{
         let s3 = model.places.first(where: { $0.name == "s3" }),
         let s4 = model.places.first(where: { $0.name == "s4" }),
         let b  = model.places.first(where: { $0.name == "b"  })
-
+        else{
+          fatalError("Erreur")
+        }
 
   let initialMarking: CoverabilityMarking =
       [s0: 1, s1: 0, s2: 1, s3: 0, s4: 1, b: 1]   //marquage initial
@@ -58,4 +62,5 @@ do{
     print("Graphe crée")
   }
 
+print("stop")
 }
