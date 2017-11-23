@@ -13,8 +13,42 @@ extension PredicateNet {
         // You may use these methods to check if you've already visited a marking, or if the model
         // is unbounded.
 
-        return nil
-    }
+        let start = PredicateMarkingNode<T>(marking: marking)
+                var nodeToVisit: [PredicateMarkingNode<T>] = [start]   //tout les noeuds à visité
+                while(!nodeToVisit.isEmpty){                              // tant que la liste n'est pas vide
+                  let act = nodeToVisit.popLast()!                        //On récupère le dernier élément de l'array
+                  for trans in transitions {
+                    act.successors[trans] = [:]                           //tout les successeurs sont initialisé
+                    let binding: [PredicateTransition<T>.Binding] = trans.fireableBingings(from: act.marking) //creer les binding
+                    for b in binding{                                     //parcourt le binding
+                        let newMark = PredicateMarkingNode(marking: trans.fire(from: act.marking, with:b)!)
+                        for ini in start{                               //itère sur tout les éléments qui existe
+                          if (PredicateNet.greater(newMark.marking, ini.marking)){ //si le nouveau marquage est plus grand que le marquage
+                            return nil
+                          }
+                        }
+                        if let traveledMarking = start.first(where: {PredicateNet.equals($0.marking, newMark.marking)})
+                        {
+                          act.successors[trans]![b] = traveledMarking      //si le marquage est déjà visité alors on l'ajoute dans les successeurs
+                        } else if(!nodeToVisit.contains(where: {PredicateNet.equals($0.marking, newMark.marking)}))
+                        {
+                          nodeToVisit.append(newMark)                //le nouveau marquage est ajouté à la liste des noeuds à visiter
+                          act.successors[trans]![b] = newMark         //et aussi à la liste des successeurs
+                        }
+                    }
+                  }
+                }
+                // Note that I created the two static methods equals(_:_:) and greater(_:_:) to help
+                // you compare predicate markings. You can use them as the following:
+                //
+                //     PredicateNet.equals(someMarking, someOtherMarking)
+                //     PredicateNet.greater(someMarking, someOtherMarking)
+                //
+                // You may use these methods to check if you've already visited a marking, or if the model
+                // is unbounded.
+
+                return start
+            }
 
     // MARK: Internals
 

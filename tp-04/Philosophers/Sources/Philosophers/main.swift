@@ -2,6 +2,37 @@ import PetriKit
 import PhilosophersLib
 
 do {
+  let philosophers = lockFreePhilosophers(n : 5)
+  let philosophersMarking = philosophers.markingGraph(from: philosophers.initialMarking!)
+  print("Il y a \(philosophersMarking!.count) marquage possible pour le modèle des philosophes non bloquable à 5 philosophes")
+  print("")
+}
+
+do {
+  let philosophers = lockablePhilosophers(n: 5)
+  let philosophersMarking = philosophers.markingGraph(from : philosophers.initialMarking!)
+  print("Il y a \(philosophersMarking!.count) marquage possible pour le modèle des philosophes bloquable à 5 philosophes")
+  print("")
+
+lock : for node in philosophersMarking! {
+  var found = true
+  for (_, e) in node.successors {
+    if e.count != 0 {
+    found = false
+    }
+  }
+    if found {
+      print("Avec ce marquage : \(node.marking) le réseaux est bloqué")
+      print("")
+      break lock
+    }
+}
+}
+
+
+/*
+
+do {
     enum C: CustomStringConvertible {
         case b, v, o
 
@@ -50,6 +81,9 @@ do {
         print(m)
     }
 
+}*/
+
+/*
 do {
 	enum Ingredients {
 	case p,t,m
@@ -67,7 +101,7 @@ do {
 	case ingredients(Ingredients)
 	case smokers(Smokers)
 	case referee(Referee)
-	} 
+	}
 
 	let s = PredicateTransition<Types>{
 	preconditions: [
@@ -78,7 +112,7 @@ do {
 		PredicateArc(place: "r", label: [.function({ _ in .referee(.rob) })]),
 		PredicateArc(place: "w", label: [.variable("w"), .variable("s")]),
 	],
-	
+
 	conditions : [{ binding in
 
 		guard case let .smokers(s)      = binding ["s"]!,
@@ -98,4 +132,4 @@ do {
 
 		}
   }
-}
+}*/
