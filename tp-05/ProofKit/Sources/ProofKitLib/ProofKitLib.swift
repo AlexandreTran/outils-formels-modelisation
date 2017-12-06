@@ -73,14 +73,60 @@ public enum Formula {
     /// The disjunctive normal form of the formula.
     public var dnf: Formula {
         // Write your code here ...
-        return self
+        switch self.nnf {     // on part de la formule NNF pour pouvoir calculer sa DNF
+        case .proposition(_):
+            return self.nnf   // si c'est une proposition il n'y a rien a faire
+        case .negation(_):
+            return self.nnf     // si c'est une négation il n'y a rien a faire non plus
+        case .disjunction(let a, let b): // si c'est une disjonction on sépare la formule en deux parties ce qu'il y a a droite et a gauche
+            return a.dnf || b.dnf // on retourne la dnf des deux parties
+        case .conjunction(let a, let b): // si on a une conjonction on sépare la formule en deux aussi
+            switch a.dnf { //pour la partie gauche
+            case .disjunction(let c, let d):  // dans le cas de la disjonction dans la partie gauche on distribue
+                return (b && d).dnf || (b && c).dnf
+            default: break
+            }
+            switch b.dnf {  // pour la partie droite
+            case .disjunction(let c, let d): // la meme chose
+                return (c && a).dnf || (d && a).dnf
+            default: break
+            }
+
+            return self.cnf //sinon il n'y a rien a faire donc on retourne sa cnf qui est du coup égale à sa dnf
+
+        case .implication(_,_): //ce cas ne sera jamais utilisé car l'implication est supprimé par la nnf
+            return self.nnf
+        }
+
     }
 
     /// The conjunctive normal form of the formula.
     public var cnf: Formula {
         // Write your code here ...
-        return self
-    }
+        switch self.nnf {     // la même chose qu'avec la dnf saud qu'on utilise d'autre loi de distribution
+        case .proposition(_):
+            return self.nnf
+        case .negation(_):
+            return self.nnf
+        case .conjunction(let a, let b):
+            return a.cnf && b.cnf
+        case .disjunction(let a, let b):
+            switch a.cnf {
+            case .conjunction(let c, let d):
+                return (b || c).cnf && (b || d).cnf
+            default: break
+            }
+            switch b.cnf {
+            case .conjunction(let c, let d):
+                return (a || c).cnf && (a||d).cnf
+            default: break
+            }
+            return self.dnf
+        case .implication(_,_):
+            return self.nnf
+
+        }
+}
 
     /// The propositions the formula is based on.
     ///

@@ -2,10 +2,12 @@ import ProofKitLib
 
 let a: Formula = "a"
 let b: Formula = "b"
-let f = a && b
+let c: Formula = "c"
+let d: Formula = "d"
+let f = a => b && b => a |- a => b && b => a
 
-print(f)
-
+print(f.isProvable)
+/*
 let booleanEvaluation = f.eval { (proposition) -> Bool in
     switch proposition {
         case "p": return true
@@ -50,3 +52,4 @@ let fruityEvaluation = f.eval { (proposition) -> Fruit in
     }
 }
 print(fruityEvaluation)
+*/

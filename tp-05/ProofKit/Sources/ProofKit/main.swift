@@ -3,31 +3,35 @@ import ProofKitLib
 let a: Formula = "a"
 let b: Formula = "b"
 let c: Formula = "c"
-let f = !(a && (b || c))
-print("f:")
+//let f = !(a && (b || c))
+/*
+print("formula: \(f)")
+print("nnf                       : \(f.nnf)")
+print("dnf                       : \(f.dnf)")
+print("cnf                       : \(f.cnf)")
+print("cnf correction exercice   : \((!a || !b) && (!a || !c))")
+print("dnf correction exercice   : \(f.nnf)")
+*/
+
+
+let f  = (a=>b) || !(a && c)
 print("formula: \(f)")
 print("nnf    : \(f.nnf)")
-print("cnf    : \((!a || !b) && (!a || !c))")
-print("dnf    : \(f.nnf)")
-
-
-/*
-print("\nex2:")
-let ex2 = (a => b) || !(a &&c)
-print("formula: \(ex2)")
-print("nnf    : \(ex2.nnf)")
-print("cnf    : \((!a || b || !c))")
-print("dnf    : \((!a || b || !c))")
-print("dnf    : \(ex2.nnf)")
+print("dnf                       : \(f.dnf)")
+print("cnf                       : \(f.cnf)")
+print("cnf correction exercice   : \((!a || b || !c))")
+print("dnf correction exercice   : \((!a || b || !c))")
+print("dnf correction exercice   : \(f.nnf)")
 // !a || b || !c est la cnf et la dnf
 
-
-print("\nex3:")
-let ex3 = (!a || b && c) && a
-print("formula: \(ex3)")
-print("nnf    : \(ex3.nnf)")
-print("cnf    : \(b && c && a)")
-print("dnf    : \(b && c && a)")   //c'est une dnf et une cnf aussi
+/*
+let f = (!a || b && c) && a
+print("formula: \(f)")
+print("nnf    : \(f.nnf)")
+print("dnf    : \(f.dnf)")
+print("cnf    : \(f.cnf)")
+print("cnf correction exercice   : \(b && c && a)")
+print("dnf correction exercice   : \(b && c && a)")   //c'est une dnf et une cnf aussi
 */
 
 
